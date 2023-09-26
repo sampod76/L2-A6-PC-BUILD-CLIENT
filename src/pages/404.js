@@ -15,10 +15,10 @@ const ERrorPage = () => {
   return (
     <div style={{ textAlign: "center" }}>
       <Head>
-        <title>Cheap PC Not Found</title>
+        <title>PC Not Found</title>
         <meta
           name="description"
-          content="This is Cheap PC of Sarwar made by next-js"
+          content="This is made by next-js"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />

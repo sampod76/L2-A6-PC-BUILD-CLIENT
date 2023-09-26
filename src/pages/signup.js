@@ -1,15 +1,20 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
-
-import { signIn } from "next-auth/react";
-
+import { signIn, useSession } from "next-auth/react";
+import GoogleSvg from "@/assets/svg/google";
+import { useRouter } from "next/router";
 
 const SignUpPage = () => {
-  
-
+  const { data: session } = useSession();
+  const router = useRouter();
   const onSubmit = (data) => {
     console.log(data);
   };
+  useEffect(() => {
+    if (session?.user?.email) {
+      router.push("/");
+    }
+  }, [session]);
   return (
     <div>
       <div
@@ -18,27 +23,13 @@ const SignUpPage = () => {
           fontFamily: "cursive",
         }}
       >
-        <h2 className="text-3xl font-bold">SIgn Up</h2>
-        <Form className="mt-8 space-y-6" onFinish={onSubmit}>
-          <Form.Item label="User Name" name="name">
-            <Input placeholder="You Email"  required></Input>
-          </Form.Item>
-          <Form.Item label="UserPassword" name="password">
-            <Input placeholder="You Password"  required></Input>
-          </Form.Item>
+        <h2 className="text-3xl font-bold text-center border-2 p-3">Sign Up</h2>
 
-        <Form.Item>
-          <Button block type="default" htmlType="submit">Sign UP</Button>
-        </Form.Item>
-
-          
-        </Form>
-
-        <section className="mt-7 flex flex-col gap-5">
+        <section className="mt-7 grid grid-cols-2  gap-5">
           <button
             onClick={() =>
               signIn("github", {
-                callbackUrl: "https://cheap-pc-builder-sarwar-asik.vercel.app/",
+                callbackUrl: process.env.NEXT_CLINET_BASE_URL,
               })
             }
             className="flex items-center justify-center w-full  px-4 py-2 border border-gray-300 shadow-sm text-base font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
@@ -57,24 +48,17 @@ const SignUpPage = () => {
             </svg>
             Sign in with GitHub
           </button>
-          <button onClick={() =>
+          <button
+            onClick={() =>
               signIn("google", {
-                callbackUrl: "https://cheap-pc-builder-sarwar-asik.vercel.app/",
+                callbackUrl: process.env.NEXT_CLINET_BASE_URL,
               })
-            } className="flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                fillRule="evenodd"
-                d="M9.293 3.293A1 1 0 0110 3h4a1 1 0 011 1v12a1 1 0 01-1 1h-4a1 1 0 01-.707-.293l-6-6a1 1 0 010-1.414l6-6zM6.586 10l-4 4V6l4 4z"
-                clipRule="evenodd"
-              />
-            </svg>
+            }
+            className="flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+          >
+            <div className="w-7">
+              <GoogleSvg />
+            </div>
             <span>Google</span>
           </button>
         </section>
